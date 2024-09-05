@@ -1,1 +1,28 @@
-<p>categories works!</p>
+<!-- categories.component.html -->
+<div class="categories-container">
+    <h2>Categories</h2>
+  
+    <!-- Form to add a new category -->
+    <form (ngSubmit)="addCategory()">
+      <div>
+        <label for="name">Name:</label>
+        <input type="text" id="name" [(ngModel)]="newCategory.name" name="name" required>
+      </div>
+  
+      <div>
+        <label for="description">Description:</label>
+        <input type="text" id="description" [(ngModel)]="newCategory.description" name="description">
+      </div>
+  
+      <button type="submit">Add Category</button>
+    </form>
+  
+    <!-- Display list of categories -->
+    <ul>
+      <li *ngFor="let category of categories">
+        {{ category.name }}: {{ category.description }}
+        <button (click)="deleteCategory(category.id)">Delete</button>
+      </li>
+    </ul>
+  </div>
+  

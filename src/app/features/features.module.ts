@@ -5,6 +5,8 @@ import { FeaturesRoutingModule } from './features-routing.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { TransactionsModule } from './transactions/transactions.module';
 import { AuthModule } from './auth/auth.module';
+import { CategoriesModule } from './categories/categories.module';
+import { ProfileModule } from './profile/profile.module';
 
 
 @NgModule({
@@ -13,7 +15,9 @@ import { AuthModule } from './auth/auth.module';
     CommonModule,
     DashboardModule,
     TransactionsModule,
-    AuthModule
+    AuthModule,
+    CategoriesModule,
+    ProfileModule
   ]
 })
 export class FeaturesModule { }

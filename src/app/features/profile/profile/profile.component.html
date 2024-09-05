@@ -1,1 +1,40 @@
-<p>profile works!</p>
+<div class="profile-container">
+    <h2>User Profile</h2>
+  
+    <form *ngIf="isEditing; else viewProfile" (ngSubmit)="saveProfile()">
+      <div>
+        <label for="username">Username:</label>
+        <input type="text" id="username" [(ngModel)]="profile.username" name="username" required>
+      </div>
+  
+      <div>
+        <label for="email">Email:</label>
+        <input type="email" id="email" [(ngModel)]="profile.email" name="email" required>
+      </div>
+  
+      <div>
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" [(ngModel)]="profile.firstName" name="firstName">
+      </div>
+  
+      <div>
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" [(ngModel)]="profile.lastName" name="lastName">
+      </div>
+  
+      <button type="submit">Save</button>
+      <button type="button" (click)="toggleEdit()">Cancel</button>
+    </form>
+  
+    <ng-template #viewProfile>
+      <div>
+        <p><strong>Username:</strong> {{ profile.username }}</p>
+        <p><strong>Email:</strong> {{ profile.email }}</p>
+        <p><strong>First Name:</strong> {{ profile.firstName }}</p>
+        <p><strong>Last Name:</strong> {{ profile.lastName }}</p>
+  
+        <button (click)="toggleEdit()">Edit Profile</button>
+      </div>
+    </ng-template>
+  </div>
+  
