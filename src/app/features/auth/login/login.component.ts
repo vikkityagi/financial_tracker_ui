@@ -11,6 +11,7 @@ import {
   MatSnackBarRef,
 } from '@angular/material/snack-bar';
 import { SnackBarComponent } from '../snack-bar/snack-bar.component';
+import { SharedService } from 'src/app/service/shared.service';
 
 @Component({
   selector: 'app-login',
@@ -23,21 +24,22 @@ export class LoginComponent {
   durationInSeconds = 2;
 
   loginForm!: FormGroup;
-  
 
-  
-  
+
+
+
 
   constructor(private _fb: FormBuilder,
     private authService: AuthService,
-    private router: Router){
+    private router: Router,
+    private shareService: SharedService) {
     this.init();
   }
 
-  init(){
+  init() {
     this.loginForm = this._fb.group({
-      username: ['',Validators.required],
-      password:['',Validators.required]
+      username: ['', Validators.required],
+      password: ['', Validators.required]
     })
   }
 
@@ -48,11 +50,12 @@ export class LoginComponent {
           const body = response.body;
           const username = this.loginForm.get('username')?.value;
           const password = this.loginForm.get('password')?.value;
-          if(response.status === 200 && (body.username == username && body.password == password)){
-              this.openSnackBar("Login successfully...");
-              setTimeout(()=>{
-                this.router.navigate(['/dashboard']); 
-              },1000)
+          if (response.status === 200 && (body.id != null && body.username == username && body.confirmPassword == password)) {
+            this.openSnackBar("Login successfully...");
+            setTimeout(() => {
+              this.shareService.updateData(body.id);
+              this.router.navigate(['/dashboard']);
+            }, 1000)
             return;
           }
           this.openSnackBar("User Not found");
@@ -72,7 +75,7 @@ export class LoginComponent {
     });
   }
 
-  
+
 
 
 }
