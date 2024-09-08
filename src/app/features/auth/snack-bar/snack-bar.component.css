@@ -1,0 +1,7 @@
+.example-pizza-party {
+    color: hotpink;
+}
+
+:host {
+    display: flex;
+}
