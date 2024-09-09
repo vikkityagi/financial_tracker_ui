@@ -12,6 +12,7 @@ import {
 } from '@angular/material/snack-bar';
 import { SnackBarComponent } from '../snack-bar/snack-bar.component';
 import { SharedService } from 'src/app/service/shared.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -32,7 +33,8 @@ export class LoginComponent {
   constructor(private _fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private shareService: SharedService) {
+    private shareService: SharedService,
+  private http:HttpClient) {
     this.init();
   }
 
@@ -73,6 +75,25 @@ export class LoginComponent {
       duration: this.durationInSeconds * 1000,
       data: { message },  // Pass the dynamic message
     });
+  }
+
+  
+
+  send( ){
+
+    const apiUrl = 'http://localhost:8082/users/add';
+    // Create Basic Auth headers
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic ' + btoa('admin:adminpassword')  // Replace with your credentials
+    });
+
+    // Make POST request
+    this.http.post(apiUrl, { name: "admin", address: "my address" }, { headers }).subscribe({
+      next: data=>{
+        alert("data-"+data);
+      }
+    })
   }
 
 
