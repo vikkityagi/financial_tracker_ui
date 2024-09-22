@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/service/auth.service';
+import { SharedService } from 'src/app/service/shared.service';
 
 @Component({
   selector: 'app-signup',
@@ -12,7 +13,7 @@ export class SignupComponent {
 
   signupForm!: FormGroup;
 
-  constructor(private _fb:FormBuilder,private authService: AuthService){
+  constructor(private _fb:FormBuilder,private authService: AuthService,private shareService: SharedService,){
     this.init();
   }
 
@@ -28,10 +29,12 @@ export class SignupComponent {
   onSubmit(): void {
     if (this.signupForm.valid) {
       this.authService.signup(this.signupForm.value).subscribe({
-        next: data=>{
-          if(data.status === 201){
+        next: response=>{
+          const body = response.body;
+          if(response.status === 201){
             this.signupForm.reset();
-          }else if(data.status === 200){
+            this.shareService.updateData(body.id);
+          }else if(response.status === 200){
             alert("Please try again..")
           }
         },

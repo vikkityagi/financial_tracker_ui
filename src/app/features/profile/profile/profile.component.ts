@@ -1,7 +1,6 @@
 // profile.component.ts
 import { Component, OnInit } from '@angular/core';
 import { ProfileService } from 'src/app/service/profile.service';
-import { UserProfile } from '../../models/profile.model';
 import { SharedService } from 'src/app/service/shared.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
