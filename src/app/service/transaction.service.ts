@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { catchError, Observable, throwError } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 
 @Injectable({
@@ -8,7 +9,7 @@ import { Observable } from 'rxjs';
 })
 export class TransactionService {
 
-  private apiUrl = 'http://localhost:8082/transactions';
+  private apiUrl = environment.baseUrl;
 
   constructor(private http: HttpClient) { }
 
@@ -17,6 +18,8 @@ export class TransactionService {
   }
 
   addTransaction(transaction: any): Observable<any> {
-    return this.http.post<any>(this.apiUrl, transaction);
+    return this.http.post<any>(`${this.apiUrl}/api/v1/transactions`, transaction, {observe: 'response'}).pipe(catchError((err: HttpErrorResponse)=>{
+      return throwError(()=>err);
+    }));
   }
 }
