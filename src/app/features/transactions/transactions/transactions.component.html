@@ -55,11 +55,11 @@
 
 
 
-  <mat-table [dataSource]="this.dataSource" class="mat-elevation-z8">
+  <mat-table [dataSource]="this.transactions" class="mat-elevation-z8">
 
     <ng-container matColumnDef="id">
       <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
-      <mat-cell *matCellDef="let element,let i = inex"> {{i+1}} </mat-cell>
+      <mat-cell *matCellDef="let element,let i = index"> {{i+1}} </mat-cell>
     </ng-container>
 
     <!-- Define columns -->
@@ -78,11 +78,26 @@
       <mat-cell *matCellDef="let transaction"> {{ transaction.amount | currency }} </mat-cell>
     </ng-container>
 
+    <ng-container matColumnDef="action">
+      <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
+      <mat-cell *matCellDef="let transaction">
+        <button mat-icon-button aria-label="Example icon button with a open in new tab icon" (click)="edit(transaction)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        
+        <div class="example-button-container">
+          <button mat-icon-button aria-label="Example icon button with a delete icon" (click)="delete(transaction)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </mat-cell>
+    </ng-container>
+
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
 
-  <div *ngIf="dataSource.length === 0">
+  <div *ngIf="transactions.length === 0">
     <p>No transactions found.</p>
   </div>
 
