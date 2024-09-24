@@ -4,6 +4,9 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { DashboardRoutingModule } from './dashboard-routing.module';
+import { MatTableModule } from '@angular/material/table';
+import { HighchartsChartModule } from 'highcharts-angular';
+
 
 
 
@@ -15,7 +18,9 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
     CommonModule,
     MatCardModule,
     MatButtonModule,
-    DashboardRoutingModule
+    DashboardRoutingModule,
+    MatTableModule,
+    HighchartsChartModule
   ]
 })
 export class DashboardModule { }
