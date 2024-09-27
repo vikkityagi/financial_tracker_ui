@@ -44,7 +44,7 @@
   <!-- Category Breakdown Section (Pie Chart using Highcharts) -->
   <div class="category-breakdown">
     <h3>Category Breakdown</h3>
-    <div *ngIf="categoryChartOptions">
+    <div id="categoryChartContainer">
       <highcharts-chart 
         [Highcharts]="Highcharts" 
         [options]="categoryChartOptions" 

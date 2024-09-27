@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import { TransactionService } from 'src/app/service/transaction.service';
 import { Transaction } from '../../models/transaction.model';
@@ -27,7 +27,8 @@ export class DashboardComponent implements OnInit {
     private router: Router,
     private sharedService: SharedService,
     private transactionService: TransactionService,
-    private categoryService: CategoriesService
+    private categoryService: CategoriesService,
+    private cdRef: ChangeDetectorRef,
   ) { }
 
   ngOnInit(): void {
@@ -55,9 +56,12 @@ export class DashboardComponent implements OnInit {
       this.calculateTotals(transactions);
       this.recentTransactions = transactions.slice(0, 5); // Display the latest 5 transactions
 
+      console.log('recentTransactions- '+this.recentTransactions);
+
       // Load category breakdown
       if (this.authId != 0) {
         this.loadCategoryBreakdown(this.authId);
+        this.cdRef.markForCheck();
       } else {
         alert('Please login again...');
         this.router.navigate(['/login']);
@@ -75,6 +79,38 @@ export class DashboardComponent implements OnInit {
       .reduce((sum, t) => sum + Math.abs(t.amount), 0);
 
     this.totalBalance = this.totalIncome - this.totalExpenses;
+  }
+
+  loadDummyData(): void {
+    // Hardcoded dummy data
+    const dummyData = [
+      { name: 'Food', y: 30 },
+      { name: 'Transport', y: 20 },
+      { name: 'Entertainment', y: 50 },
+    ];
+
+    // Configure the Highcharts options
+    this.categoryChartOptions = {
+      chart: {
+        type: 'pie'
+      },
+      title: {
+        text: 'Category Breakdown'
+      },
+      series: [{
+        name: 'Amount',
+        type: 'pie',
+        data: dummyData // Use the dummy data
+      }]
+    };
+
+    console.log('Chart Options:', this.categoryChartOptions); // Log chart options
+
+    // Manually trigger change detection to update the DOM
+    this.cdRef.detectChanges();
+
+    // Render the chart after detecting changes
+    this.renderChart();
   }
 
   loadCategoryBreakdown(login_id: number): void {
@@ -105,6 +141,15 @@ export class DashboardComponent implements OnInit {
       };
     });
   }
+  
+
+  // Method to render the chart using Highcharts
+  renderChart(): void {
+    Highcharts.chart('categoryChartContainer', this.categoryChartOptions);  // The container id in your HTML template
+  }
+
+
+  
   
 
 

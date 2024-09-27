@@ -75,7 +75,7 @@ export class TransactionsComponent implements OnInit {
   private initForm(){
     this.transactionForm = this.fb.group({
       id: [''],
-      login_id: [0,Validators.required],
+      login_id: [0],
       description: ['',[Validators.required]],
       amount: [[Validators.required]],
       date: ['',[Validators.required]],
@@ -139,8 +139,12 @@ export class TransactionsComponent implements OnInit {
   }
 
   public delete(transaction: any){
-    this.transactionService.deleteTransaction(transaction.id);
-    this.getTransactions(transaction.login_id);
+    this.transactionService.deleteTransaction(transaction.id).subscribe({
+      next: res=>{
+        alert("deleted"+transaction.id);
+        this.getTransactions(transaction.login_id);
+      }
+    });
   }
 
   private loadFormWithValue(data: any){

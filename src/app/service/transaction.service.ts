@@ -33,9 +33,8 @@ export class TransactionService {
     }));
   }
 
-  deleteTransaction(id: number): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}/api/v2/transactions/${id}`, {observe: 'response'}).pipe(catchError((err: HttpErrorResponse)=>{
-      return throwError(()=>err);
-    }));
+  deleteTransaction(id: number): Observable<void> {
+    debugger
+    return this.http.delete<void>(`${this.apiUrl}/api/v2/transactions/${id}`)
   }
 }
