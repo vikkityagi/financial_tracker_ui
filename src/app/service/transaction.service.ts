@@ -34,7 +34,6 @@ export class TransactionService {
   }
 
   deleteTransaction(id: number): Observable<void> {
-    debugger
     return this.http.delete<void>(`${this.apiUrl}/api/v2/transactions/${id}`)
   }
 }

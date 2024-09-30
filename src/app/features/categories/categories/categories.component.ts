@@ -4,6 +4,7 @@ import { Category } from '../../models/category.model';
 import { CategoriesService } from 'src/app/service/category.service';
 import { SharedService } from 'src/app/service/shared.service';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-categories',
@@ -26,7 +27,7 @@ export class CategoriesComponent implements OnInit {
     loginId: 0
   };
 
-  constructor(private categoryService: CategoriesService,private shareService: SharedService,private router: Router) {}
+  constructor(private snackbar: MatSnackBar,private categoryService: CategoriesService,private shareService: SharedService,private router: Router) {}
 
   ngOnInit(): void {
     this.getAuthId();
@@ -47,7 +48,18 @@ export class CategoriesComponent implements OnInit {
   getCategory(id: number){
     this.categoryService.getCategoryById(id).subscribe({
       next: data=>{
-        this.categoryData = data;
+        if(data.length < 1){
+          this.snackbar.open("I think we don't have a category so please create a category!!!","close",{
+            duration: 3000
+          })
+        }else{
+          this.categoryData = data;
+        }
+        
+      },error: errorResponse=>{
+        this.snackbar.open("I think we don't have a category so please create a category!!!","close",{
+          duration: 3000
+        })
       }
     })
   }
@@ -56,6 +68,11 @@ export class CategoriesComponent implements OnInit {
     this.categoryService.getCategories(loginId).subscribe({
       next: response=>{
         this.categories = response;
+      },error:err=>{
+        this.snackbar.open("I think we don't have a category so please create a category, or it is the server issue","close",{
+          duration: 3000
+        });
+        this.toggleAdd();
       }
     })
   }

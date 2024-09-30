@@ -34,6 +34,7 @@ export class SignupComponent {
           if(response.status === 201){
             this.signupForm.reset();
             this.shareService.updateData(body.id);
+            this.authService.setLoggedIn(true);
           }else if(response.status === 200){
             alert("Please try again..")
           }
